@@ -159,6 +159,7 @@ func (s *service) QueryRow(query string, args ...any) *sql.Row {
 	return s.db.QueryRow(query, args...)
 }
 
+// Exec executes a query without returning any rows.
 func (s *service) Exec(query string, args ...any) (sql.Result, error) {
 	return s.db.Exec(query, args...)
 }
