@@ -26,8 +26,8 @@ type Service interface {
 	// Query executes a query against the database and returns the result rows.
 	Query(query string, args ...any) (*sql.Rows, error)
 
-	// QueryRow executes a query that is expected to return at most one row.
-	QueryRow(query string, args ...any) *sql.Row
+	// Exec executes a query without returning any rows.
+	Exec(query string, args ...any) (sql.Result, error)
 }
 
 type service struct {
@@ -53,10 +53,40 @@ func New() Service {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	err = initializeDatabase(db)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	dbInstance = &service{
 		db: db,
 	}
 	return dbInstance
+}
+
+func initializeDatabase(db *sql.DB) error {
+	schema, err := os.ReadFile("./internal/database/schema.sql")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = db.Exec(string(schema))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	initialData, err := os.ReadFile("./internal/database/init.sql")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = db.Exec(string(initialData))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return nil
 }
 
 // Health checks the health of the database connection by pinging the database.
@@ -124,7 +154,7 @@ func (s *service) Query(query string, args ...any) (*sql.Rows, error) {
 	return s.db.Query(query, args...)
 }
 
-// QueryRow executes a query that is expected to return at most one row.
-func (s *service) QueryRow(query string, args ...any) *sql.Row {
-	return s.db.QueryRow(query, args...)
+// Exec executes a query without returning any rows.
+func (s *service) Exec(query string, args ...any) (sql.Result, error) {
+	return s.db.Exec(query, args...)
 }
