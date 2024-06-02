@@ -25,6 +25,9 @@ type Service interface {
 
 	// Query executes a query against the database and returns the result rows.
 	Query(query string, args ...any) (*sql.Rows, error)
+
+	// QueryRow executes a query that is expected to return at most one row.
+	QueryRow(query string, args ...any) *sql.Row
 }
 
 type service struct {
@@ -119,4 +122,9 @@ func (s *service) Close() error {
 // Query executes a query against the database and returns the result rows.
 func (s *service) Query(query string, args ...any) (*sql.Rows, error) {
 	return s.db.Query(query, args...)
+}
+
+// QueryRow executes a query that is expected to return at most one row.
+func (s *service) QueryRow(query string, args ...any) *sql.Row {
+	return s.db.QueryRow(query, args...)
 }
