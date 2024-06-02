@@ -22,6 +22,9 @@ type Service interface {
 	// Close terminates the database connection.
 	// It returns an error if the connection cannot be closed.
 	Close() error
+
+	// Query executes a query against the database and returns the result rows.
+	Query(query string, args ...any) (*sql.Rows, error)
 }
 
 type service struct {
@@ -111,4 +114,9 @@ func (s *service) Health() map[string]string {
 func (s *service) Close() error {
 	log.Printf("Disconnected from database: %s", database)
 	return s.db.Close()
+}
+
+// Query executes a query against the database and returns the result rows.
+func (s *service) Query(query string, args ...any) (*sql.Rows, error) {
+	return s.db.Query(query, args...)
 }
