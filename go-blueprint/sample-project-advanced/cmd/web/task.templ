@@ -1,0 +1,60 @@
+package web
+
+import "sample-project-advanced/types"
+
+templ CreateTaskForm(tasks []types.Task) {
+	@Base() {
+        <h1>Create Task Form</h1>
+		<form action="/tasks" method="POST">
+			<input id="name" name="name" type="text"/>
+            <input id="description" name="description" type="text"/>
+            <input id="is_completed" name="is_completed" type="checkbox"/>
+			<button type="submit">Create!</button>
+		</form>
+        @TaskList(tasks)
+	}
+}
+
+templ TaskList(tasks []types.Task) {
+  <style>
+    table {
+      margin: 16px 0px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Completed</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      for _, task := range tasks {
+        <tr>
+          <td>
+            if task.IsCompleted {
+              <input type="checkbox" checked disabled/>
+            } else {
+              <input type="checkbox" disabled/>
+            }
+          </td>
+          <td>{ task.Name }</td>
+          <td>{ task.Description }</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+
