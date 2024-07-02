@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-// eg -t ./templates/template2/template2.go -w ./samples/sample2.go
+// eg -t ./templates/template2/template.go -w ./samples/sample2.go
 
 func before(filename string) ([]byte, error) {
     return ioutil.ReadFile(filename)
