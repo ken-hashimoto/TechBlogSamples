@@ -1,16 +1,11 @@
 package main
 
-import (
-	"errors"
-	"fmt"
-)
-
 /*
 template1
 eg -t ./template.go -w ./samples/sample1.go
 */
-func before(s string) error { return fmt.Errorf("%s", s) }
-func after(s string)  error { return errors.New(s) }
+// func before(s string) error { return fmt.Errorf("%s", s) }
+// func after(s string)  error { return errors.New(s) }
 
 /*
 template2
@@ -34,7 +29,6 @@ eg -t ./template.go -w ./samples/sample3.go
 //     return !t.IsZero()
 // }
 
-
 /*
 template4
 eg -t ./template.go -w ./samples/sample4.go
@@ -46,8 +40,8 @@ eg -t ./template.go -w ./samples/sample4.go
 template5
 eg -t ./template.go -w ./samples/sample5.go
 */
-// func before(x int) int { return x * 2 }
-// func after(x int) int { return x + x }
+// func before(x int) int { return x + x }
+// func after(x int) int { return 2 * x }
 
 /*
 template6
