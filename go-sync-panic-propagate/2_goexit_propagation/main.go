@@ -22,7 +22,7 @@ func main() {
 	g.Go(func() error {
 		fmt.Println("Task 2 calling Goexit")
 		runtime.Goexit() // goroutineを強制終了
-		return nil       // この行は実行されない
+		return nil
 	})
 
 	fmt.Println("Before Wait()")

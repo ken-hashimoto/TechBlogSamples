@@ -22,11 +22,8 @@ func main() {
 
 	g.Go(func() error {
 		panic("Something went wrong!")
-		return nil
 	})
 
-	// この行に到達する前にプログラムが停止してしまう（v0.13.0以前）
-	// v0.14.0以降ではpanicが伝播される
 	if err := g.Wait(); err != nil {
 		fmt.Printf("Error: %v\n", err)
 	}
